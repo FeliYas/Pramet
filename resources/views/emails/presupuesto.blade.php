@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Nuevo Presupuesto Web - Tabiplast</title>
+    <title>Nuevo Presupuesto Web - Pramet</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -148,7 +148,7 @@
             </div>
         </div>
         <div class="footer">
-            <p>© {{ date('Y') }} Tabiplast. Todos los derechos reservados.</p>
+            <p>© {{ date('Y') }} Pramet. Todos los derechos reservados.</p>
             <p>Este es un correo automático, por favor no responda a este mensaje.</p>
         </div>
     </div>

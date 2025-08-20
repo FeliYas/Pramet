@@ -11,6 +11,7 @@ use App\Models\Metadato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class ContactoController extends Controller
 {
@@ -31,6 +32,7 @@ class ContactoController extends Controller
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
         return view('front.contacto', compact('contacto', 'banner', 'metadatos', 'logos', 'redes', 'contactos', 'whatsapp'));
     }
+
     public function enviar(Request $request)
     {
         $validated = $request->validate([
@@ -51,7 +53,6 @@ class ContactoController extends Controller
                 ->withInput();
         }
 
-        // Si el score es muy bajo (posible bot), puedes rechazar la solicitud
         if ($recaptcha['score'] < 0.7) {
             return redirect()->back()
                 ->withErrors(['recaptcha' => 'La verificación de seguridad ha detectado actividad sospechosa. Por favor, inténtalo de nuevo más tarde.'])
@@ -60,17 +61,44 @@ class ContactoController extends Controller
 
         $contacto = Contacto::first()->email;
 
-
         if (!$contacto) {
             return redirect()->back()->with('error', 'No se encontró un contacto con el tipo "email".');
         }
+
+        // Verificar config básica de mail
+        if (!config('mail.default') || !config('mail.from.address')) {
+            return redirect()->back()->withInput()->with('error', 'Configuración de email incompleta en el servidor.');
+        }
+
+        // Si es SMTP, verificar config mínima
+        if (config('mail.default') === 'smtp') {
+            if (!config('mail.mailers.smtp.host') || !config('mail.mailers.smtp.port')) {
+                return redirect()->back()->withInput()->with('error', 'Configuración SMTP incompleta (host/port faltantes).');
+            }
+        }
         
-        // Enviar el correo
-        Mail::to($contacto)->send(new ContactoMail($validated));
-     
-        // Redireccionar con mensaje de éxito
+        try {
+            Mail::to($contacto)->send(new ContactoMail($validated));
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Errores de validación específicos del email
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
+                
+        } catch (\Exception $e) {
+            // Cualquier otra excepción
+            Log::error('Error al enviar email de contacto: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error del servidor: ' . $e->getMessage());
+        }
+
         return redirect()->back()->with('success', 'Mensaje enviado correctamente. Nos pondremos en contacto a la brevedad.');
     }
+
     private function verificarRecaptcha($token)
     {
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [

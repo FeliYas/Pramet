@@ -5,6 +5,8 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Address;
 
 class PresupuestoMail extends Mailable
 {
@@ -22,22 +24,26 @@ class PresupuestoMail extends Mailable
         $this->archivo = $datos['archivo'] ?? null;
     }
 
-    /**
-     * Build the message.
-     */
-    public function build()
+    public function envelope(): Envelope
     {
-        $mail = $this->subject('Nuevo Presupuesto')
-            ->view('emails.presupuesto')
-            ->with(['datos' => $this->datos]);
+        return new Envelope(
+            subject: 'Nuevo mensaje de presupuesto',
+            from: new Address('no-reply@pramet.osole.com.ar', ($this->datos['nombre'] ?? '')),
+        );
+    }
+    
+    public function attachments(): array
+    {
+        $archivos = [];
 
         if (isset($this->datos['archivo']) && $this->datos['archivo'] instanceof \Illuminate\Http\UploadedFile) {
-            $mail->attach($this->datos['archivo']->getRealPath(), [
-                'as' => $this->datos['archivo']->getClientOriginalName(),
-                'mime' => $this->datos['archivo']->getMimeType(),
-            ]);
+            $archivos[] = \Illuminate\Mail\Mailables\Attachment::fromPath(
+                $this->datos['archivo']->getRealPath()
+            )->as($this->datos['archivo']->getClientOriginalName())
+            ->withMime($this->datos['archivo']->getMimeType());
         }
 
-        return $mail;
+        return $archivos;
     }
+
 }
