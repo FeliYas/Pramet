@@ -120,16 +120,4 @@ class NovedadesController extends Controller
         // Redireccionar al index con un mensaje de éxito
         return redirect()->route('novedades.dashboard')->with('message', 'Novedad eliminada exitosamente');
     }
-    public function toggleDestacado(Request $request)
-    {
-        $novedad = Novedad::findOrFail($request->id);
-        $novedad->destacado = $request->destacado ? 1 : 0;
-        $novedad->save();
-
-        if ($novedad->destacado == 1) {
-            return redirect()->route('novedades.dashboard')->with('message', 'Novedad destacada exitosamente');
-        } else {
-            return redirect()->route('novedades.dashboard')->with('message', 'Novedad desmarcada exitosamente');
-        }
-    }
 }

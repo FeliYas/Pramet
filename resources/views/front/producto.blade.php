@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="flex flex-col gap-5 py-10 lg:py-20 w-[90%] lg:max-w-[1224px] mx-auto text-black">
-            <div class="flex flex-col lg:flex-row gap-6">
+            <div class="flex flex-col lg:flex-row gap-6 mb-18">
                 <div class="flex flex-col lg:flex-row w-full lg:w-1/2 gap-6">
                     <div class="lg:w-[13%] grid grid-cols-3 lg:flex lg:flex-col gap-2.5">
                         <!-- Imagen principal del producto -->
@@ -61,40 +61,50 @@
                         </div>
                     </div>
                     @if ($producto->manual || $producto->memoria)
-                        <div class="flex gap-6 w-full">
-                            @if ($producto->manual)
-                                <a href="{{ $producto->manual }}" class="w-1/2 btn-primary">Manual de uso</a>
-                            @endif
-                            @if ($producto->memoria)
-                                <a href="{{ $producto->memoria }}" class="w-1/2 btn-primary">Memoria descriptiva</a>
-                            @endif
+                        <div class="flex flex-col gap-2">
+                            <div class="flex gap-6 w-full">
+                                @if ($producto->manual)
+                                    <a href="{{ $producto->manual }}" class="w-1/2 btn-primary">Manual de uso</a>
+                                @endif
+                                @if ($producto->memoria)
+                                    <a href="{{ $producto->memoria }}" class="w-1/2 btn-primary">Memoria descriptiva</a>
+                                @endif
+                            </div>
+                            <div class="flex w-full">
+                                <a href="{{ route('contacto') }}" class="btn-negro w-full">Consultar</a>
+                            </div>
                         </div>
                     @endif
                 </div>
             </div>
-            <div class="flex justify-end mb-18">
-                <a href="{{ route('contacto') }}" class="btn-negro w-[49%]">Consultar</a>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-6">
-                <div class="flex flex-col gap-6 w-1/3">
-                    <h2 class="text-2xl font-semibold">Características Constructivas</h2>
-                    <div class="custom-summernote">
-                        <p>{!! $producto->constructivas !!}</p>
-                    </div>
+            @if ($producto->constructivas || $producto->tablero || $producto->quemador)
+                <div class="flex flex-col lg:flex-row gap-6">
+                    @if ($producto->constructivas)
+                        <div class="flex flex-col gap-6 w-1/3">
+                            <h2 class="text-2xl font-semibold">Características Constructivas</h2>
+                            <div class="custom-summernote">
+                                <p>{!! $producto->constructivas !!}</p>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($producto->tablero)
+                        <div class="flex flex-col gap-6 w-1/3">
+                            <h2 class="text-2xl font-semibold">Tablero Eléctrico</h2>
+                            <div class="custom-summernote">
+                                <p>{!! $producto->tablero !!}</p>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($producto->quemador)
+                        <div class="flex flex-col gap-6 w-1/3">
+                            <h2 class="text-2xl font-semibold">Características del Quemador</h2>
+                            <div class="custom-summernote">
+                                <p>{!! $producto->quemador !!}</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
-                <div class="flex flex-col gap-6 w-1/3">
-                    <h2 class="text-2xl font-semibold">Tablero Eléctrico</h2>
-                    <div class="custom-summernote">
-                        <p>{!! $producto->tablero !!}</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-6 w-1/3">
-                    <h2 class="text-2xl font-semibold">Características del Quemador</h2>
-                    <div class="custom-summernote">
-                        <p>{!! $producto->quemador !!}</p>
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
     </div>
 

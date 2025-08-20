@@ -11,13 +11,12 @@ defineOptions({
 });
 
 // Definición de las columnas
-const columns = ['orden', 'path', 'epigrafe', 'titulo', 'descripcion', 'destacado'];
+const columns = ['orden', 'path', 'epigrafe', 'titulo', 'descripcion'];
 
 // Definición de rutas
 const createRoute = route('novedades.store');
 const updateRoute = (id) => route('novedades.update', { id });
 const deleteRoute = (id) => route('novedades.destroy', { id });
-const destacadoRoute = (id) => route('novedades.toggleDestacado', { id });
 
 const props = defineProps({
     logo: {
@@ -115,6 +114,6 @@ const submit = () => {
             </div>
         </form>
         <DataTable :columns="columns" :data="novedades" :createRoute="createRoute" :updateRoute="updateRoute"
-            :deleteRoute="deleteRoute" :toggleDestacadoRoute="destacadoRoute" recomendacion="808x422" />
+            :deleteRoute="deleteRoute" recomendacion="808x422" />
     </div>
 </template>

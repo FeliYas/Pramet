@@ -188,27 +188,28 @@
                 toShow.forEach(novedad => {
                     const novedadDiv = document.createElement('div');
                     novedadDiv.innerHTML = `
-                            <div
-                                class="h-[520px] relative transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg group">
-                                <img src="${ novedad.path }" alt="${ novedad.titulo } Image"
-                                    class="w-full h-[288px] object-cover">
-                                <div
-                                    class="flex flex-col gap-4 pt-4 text-black group-hover:px-1 transition-all duration-300 ease-in-out h-[232px]">
+                            <div class="h-[520px] relative group">
+                                <div class="relative">
+                                    <img src="${novedad.path}" alt="${novedad.titulo} Image"
+                                        class="w-full h-[288px] object-cover">
+                                    <div class="absolute inset-0 bg-black group-hover:opacity-30 opacity-0 transition-opacity duration-300"></div>
+                                </div>
+                                <div class="flex flex-col gap-4 pt-4 text-black h-[232px]">
                                     <div class="h-[90px]">
-                                        <p>${ capitalizeFirst(novedad.epigrafe) } | ${ formatDate(novedad.created_at) }</p>
-                                        <h3 class=" text-2xl font-semibold line-clamp-2">${ novedad.titulo }</h3>
+                                        <p>${capitalizeFirst(novedad.epigrafe)} | ${formatDate(novedad.created_at)}</p>
+                                        <h3 class="text-2xl font-semibold line-clamp-2">${novedad.titulo}</h3>
                                     </div>
                                     <div class="h-[110px] flex flex-col justify-between">
                                         <div class="custom-summernote">
-                                            <p>${ novedad.descripcion }</p>
+                                            <p>${novedad.descripcion}</p>
                                         </div>
                                         <a href="/novedades/${novedad.id}"
-                                            class="text-[#808080] group-hover:underline group-hover:text-[#FE9100] transition-colors duration-300">VER
-                                            MÁS</a>
+                                            class="text-[#808080] group-hover:text-[#FE9100] transition-colors duration-300">
+                                            VER MÁS
+                                        </a>
                                     </div>
-
                                 </div>
-                            </div>  
+                            </div>
                         `;
                     novedadesGrid.appendChild(novedadDiv);
                 });

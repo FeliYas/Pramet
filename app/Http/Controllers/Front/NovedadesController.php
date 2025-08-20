@@ -14,10 +14,6 @@ class NovedadesController extends Controller
 {
     public function index()
     {
-        $novedadesDestacadas = Novedad::orderBy('orden', 'asc')->take(3)->get();
-        foreach ($novedadesDestacadas as $novedad) {
-            $novedad->path = asset('storage/' . $novedad->path);
-        }
         $novedades = Novedad::orderBy('orden', 'asc')->get();
         foreach ($novedades as $novedad) {
             $novedad->path = asset('storage/' . $novedad->path);
@@ -34,7 +30,7 @@ class NovedadesController extends Controller
         $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
         $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
-        return view('front.novedades', compact('novedadesDestacadas', 'novedades', 'banner', 'metadatos', 'logos', 'contactos', 'whatsapp', 'redes'));
+        return view('front.novedades', compact('novedades', 'banner', 'metadatos', 'logos', 'contactos', 'whatsapp', 'redes'));
     }
     public function show($id)
     {

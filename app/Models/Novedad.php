@@ -14,6 +14,5 @@ class Novedad extends Model
         'epigrafe',
         'titulo',
         'descripcion',
-        'destacado'
     ];
 }

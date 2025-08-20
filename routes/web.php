@@ -101,6 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //rutas de los clientes del dashboard
     Route::get('/admin/clientes', [AdminClienteController::class, 'index'])->name('clientes.dashboard');
     Route::post('/admin/clientes/store', [AdminClienteController::class, 'store'])->name('clientes.store');
+    Route::put('/admin/clientes/update/{id}', [AdminClienteController::class, 'update'])->name('clientes.update');
     Route::delete('/admin/clientes/delete/{id}', [AdminClienteController::class, 'destroy'])->name('clientes.destroy');
     
     //rutas de las novedades del dashboard
@@ -108,7 +109,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/novedades/store', [NovedadesController::class, 'store'])->name('novedades.store');
     Route::put('/admin/novedades/update/{id}', [NovedadesController::class, 'update'])->name('novedades.update');
     Route::delete('/admin/novedades/destroy/{id}', [NovedadesController::class, 'destroy'])->name('novedades.destroy');
-    Route::post('/admin/novedades/destacado', [NovedadesController::class, 'toggleDestacado'])->name('novedades.toggleDestacado');
 
     //rutas del contacto del dashboard
     Route::get('/admin/contacto', [ContactoController::class, 'index'])->name('contacto.dashboard');

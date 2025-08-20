@@ -18,7 +18,8 @@
                         <div class="flex gap-1">
                             <a href="{{ route('home') }}" class="font-bold hover:underline">{{ __('Inicio') }}</a>
                             <span>></span>
-                            <a href="{{ route('categorias') }}" class=" font-light hover:underline">{{ __('Productos') }}</a>
+                            <a href="{{ route('categorias') }}"
+                                class=" font-light hover:underline">{{ __('Productos') }}</a>
                         </div>
                     </div>
                 </div>
@@ -30,14 +31,22 @@
             </div>
             <div class="py-20 w-[90%] max-w-[1224px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($categorias as $cat)
-                    <a href="{{ route('productos', $cat->id) }}"
-                        class="h-[392px] relative transition-transform duration-300 ease-in-out hover:-translate-y-2 shadow hover:shadow-lg">
+                    <div class="h-[392px] relative group">
                         <img src="{{ $cat->path }}" alt="{{ $cat->titulo }} Image">
                         <div class="absolute inset-0 bg-black opacity-30"></div>
-                        <div class="absolute inset-0 flex items-end justify-center mb-6">
-                            <h3 class="text-white text-2xl font-semibold uppercase">{{ $cat->titulo }}</h3>
+
+                        <!-- Contenedor de texto + botón -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-end">
+                            <h3
+                                class="text-white text-2xl font-semibold uppercase transform transition-all duration-300 group-hover:-translate-y-36">
+                                {{ $cat->titulo }}
+                            </h3>
+                            <a href="{{ route('productos', $cat->id) }}"
+                                class="btn-negro opacity-0 invisible transform transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:-translate-y-36">
+                                MÁS INFO
+                            </a>
                         </div>
-                    </a>
+                    </div>
                 @endforeach
             </div>
         </div>

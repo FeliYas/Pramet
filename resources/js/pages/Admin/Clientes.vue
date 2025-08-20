@@ -15,6 +15,7 @@ const columns = ['orden', 'path'];
 
 // Definición de rutas
 const createRoute = route('clientes.store');
+const updateRoute = (id) => route('clientes.update', { id });
 const deleteRoute = (id) => route('clientes.destroy', { id });
 
 const props = defineProps({
@@ -112,7 +113,7 @@ const submit = () => {
                 </button>
             </div>
         </form>
-        <DataTable :columns="columns" :data="clientes" :createRoute="createRoute" :deleteRoute="deleteRoute"
+        <DataTable :columns="columns" :data="clientes" :createRoute="createRoute" :updateRoute="updateRoute" :deleteRoute="deleteRoute"
             recomendacion="288x160" />
     </div>
 </template>

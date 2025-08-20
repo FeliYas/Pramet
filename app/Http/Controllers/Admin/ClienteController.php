@@ -55,6 +55,41 @@ class ClienteController extends Controller
         // Redireccionar al index con un mensaje de éxito
         return redirect()->route('clientes.dashboard')->with('message', 'Cliente creado exitosamente');
     }
+    public function update(Request $request, $id)
+    {
+        // Validar los datos del formulario
+        $validator = Validator::make($request->all(), [
+            'orden' => 'required|string|max:255',
+            'path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->witherrors($validator->messages()->first());
+        }
+
+        // Buscar el cliente por ID
+        $cliente = Cliente::findOrFail($id);
+
+        // Actualizar los campos del cliente
+        $cliente->orden = $request->orden;
+
+        if ($request->hasFile('path')) {
+            // Eliminar la imagen anterior si existe
+            if ($cliente->path) {
+                if (Storage::exists($cliente->path)) {
+                    Storage::delete($cliente->path);
+                }
+            }
+            $file = $request->file('path');
+            $cliente->path = $file->store('images');
+        }
+
+        $cliente->save();
+
+        // Redireccionar al index con un mensaje de éxito
+        return redirect()->route('clientes.dashboard')->with('message', 'Cliente actualizado exitosamente');
+    }
+
     public function destroy($id)
     {
         // Find the Cliente by id

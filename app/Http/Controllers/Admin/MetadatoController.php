@@ -24,7 +24,7 @@ class MetadatoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'seccion' => 'required|string|max:255',
-            'descripcion' => 'nullable|string|max:255',
+            'descripcion' => 'nullable|string',
             'keyword' => 'nullable|string|max:255',
         ]);
         if ($validator->fails()) {

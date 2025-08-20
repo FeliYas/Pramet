@@ -29,31 +29,6 @@
             </div>
         </div>
         <div class="bg-white py-20 w-[90%] max-w-[1224px] mx-auto text-black flex flex-col gap-10">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                @foreach ($novedadesDestacadas as $novedad)
-                    <div
-                        class="h-[520px] relative transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg group">
-                        <img src="{{ $novedad->path }}" alt="{{ $novedad->titulo }} Image"
-                            class="w-full h-[288px] object-cover">
-                        <div
-                            class="flex flex-col gap-4 pt-4 text-black group-hover:px-1 transition-all duration-300 ease-in-out h-[232px]">
-                            <div class="h-[90px]">
-                                <p>{{ ucfirst($novedad->epigrafe) }} | {{ $novedad->created_at->format('d/m/Y') }}</p>
-                                <h3 class=" text-2xl font-semibold line-clamp-2">{{ $novedad->titulo }}</h3>
-                            </div>
-                            <div class="h-[110px] flex flex-col justify-between">
-                                <div class="custom-summernote">
-                                    <p>{!! $novedad->descripcion !!}</p>
-                                </div>
-                                <a href="{{ route('novedad', $novedad->id) }}"
-                                    class="text-[#808080] group-hover:underline group-hover:text-[#FE9100] transition-colors duration-300">VER
-                                    MÁS</a>
-                            </div>
-
-                        </div>
-                    </div>
-                @endforeach
-            </div>
             <div class="grid lg:grid-cols-3 gap-6">
                 <!-- Contenido principal -->
                 <div class="lg:col-span-2">
@@ -63,28 +38,33 @@
                                 data-month="{{ \Carbon\Carbon::parse($novedad->created_at)->format('Y-m') }}"
                                 data-titulo="{{ strtolower($novedad->titulo) }}"
                                 data-descripcion="{{ strtolower(strip_tags($novedad->descripcion)) }}">
-                                <div
-                                    class="h-[520px] relative transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg group">
-                                    <img src="{{ $novedad->path }}" alt="{{ $novedad->titulo }} Image"
-                                        class="w-full h-[288px] object-cover">
-                                    <div
-                                        class="flex flex-col gap-4 pt-4 text-black group-hover:px-1 transition-all duration-300 ease-in-out h-[232px]">
+                                <div class="h-[520px] relative group">
+                                    <!-- contenedor solo de la imagen -->
+                                    <div class="relative">
+                                        <img src="{{ $novedad->path }}" alt="{{ $novedad->titulo }} Image"
+                                            class="w-full h-[288px] object-cover">
+                                        <div class="absolute inset-0 bg-black group-hover:opacity-30 opacity-0 transition-opacity duration-300"></div>
+                                    </div>
+
+                                    <!-- textos -->
+                                    <div class="flex flex-col gap-4 pt-4 text-black h-[232px]">
                                         <div class="h-[90px]">
                                             <p>{{ ucfirst($novedad->epigrafe) }} |
                                                 {{ $novedad->created_at->format('d/m/Y') }}</p>
-                                            <h3 class=" text-2xl font-semibold line-clamp-2">{{ $novedad->titulo }}</h3>
+                                            <h3 class="text-2xl font-semibold line-clamp-2">{{ $novedad->titulo }}</h3>
                                         </div>
                                         <div class="h-[110px] flex flex-col justify-between">
                                             <div class="custom-summernote">
                                                 <p>{!! $novedad->descripcion !!}</p>
                                             </div>
                                             <a href="{{ route('novedad', $novedad->id) }}"
-                                                class="text-[#808080] group-hover:underline group-hover:text-[#FE9100] transition-colors duration-300">VER
-                                                MÁS</a>
+                                                class="text-[#808080] group-hover:text-[#FE9100] transition-colors duration-300">
+                                                VER MÁS
+                                            </a>
                                         </div>
-
                                     </div>
                                 </div>
+
                             </div>
                         @endforeach
                     </div>
@@ -160,8 +140,7 @@
 
                         <!-- Archivo -->
                         <div x-data="{ open: true }">
-                            <div class="flex items-center justify-between cursor-pointer select-none"
-                                @click="open = !open">
+                            <div class="flex items-center justify-between cursor-pointer select-none" @click="open = !open">
                                 <h3 class="font-semibold text-xl mb-2">Archivo</h3>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none">

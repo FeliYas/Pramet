@@ -167,7 +167,7 @@
                             </a>
                         @endif
                         @if ($contacto->whatsapp)
-                            <a href="mailto:{{ $contacto->whatsapp }}"
+                            <a href="https://wa.me/{{ preg_replace('/\D/', '', $contacto->whatsapp) }}"
                                 class="block no-underline text-inherit hover:text-main-color transition-colors duration-300">
                                 <div class="flex gap-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
